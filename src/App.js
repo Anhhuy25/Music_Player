@@ -43,8 +43,10 @@ const getLocalStorageValue = () => {
 };
 
 function App() {
-  const [songs, setSongs] = useState(infoSongs);
-  const [currentIndex, setCurrentIndex] = useState(getLocalStorageCurrentIndex());
+  const songs = infoSongs;
+  const [currentIndex, setCurrentIndex] = useState(
+    getLocalStorageCurrentIndex()
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRandom, setIsRandom] = useState(getLocalStorageIsRandom());
   const [isRepeat, setIsRepeat] = useState(getLocalStorageIsRepeat());
@@ -134,6 +136,7 @@ function App() {
       }
     };
     loadCurrentSong();
+    // eslint-disable-next-line
   }, [currentIndex]);
 
   useEffect(() => {
@@ -164,7 +167,9 @@ function App() {
 
     audioRef.current.ontimeupdate = function () {
       if (audioRef.current.duration) {
-        const currentProgress = Math.floor((audioRef.current.currentTime / audioRef.current.duration) * 100);
+        const currentProgress = Math.floor(
+          (audioRef.current.currentTime / audioRef.current.duration) * 100
+        );
         inputRef.current.value = currentProgress;
       }
     };
@@ -192,7 +197,7 @@ function App() {
       ref={playerRef}
     >
       {/* Dashboard */}
-      <div className='dashboard' ref={dashboardRef}>
+      <div className="dashboard" ref={dashboardRef}>
         {/* Header */}
         <header>
           <h4>Now playing:</h4>
@@ -200,34 +205,43 @@ function App() {
         </header>
 
         {/* CD */}
-        <div className='cd' ref={cdRef}>
-          <div ref={cdThumbRef} className='cd-thumb'></div>
+        <div className="cd" ref={cdRef}>
+          <div ref={cdThumbRef} className="cd-thumb"></div>
         </div>
 
         {/* Control */}
-        <div className='control'>
-          <button className={`btn btn-repeat ${isRepeat ? "active" : ""}`} onClick={() => setIsRepeat(!isRepeat)}>
-            <i className='fas fa-redo'></i>
+        <div className="control">
+          <button
+            className={`btn btn-repeat ${isRepeat ? "active" : ""}`}
+            onClick={() => setIsRepeat(!isRepeat)}
+          >
+            <i className="fas fa-redo"></i>
           </button>
-          <button className='btn'>
-            <i className='far fa-heart'></i>
+          <button className="btn">
+            <i className="far fa-heart"></i>
           </button>
-          <button className='btn btn-prev' onClick={prevSong}>
-            <i className='fas fa-step-backward'></i>
+          <button className="btn btn-prev" onClick={prevSong}>
+            <i className="fas fa-step-backward"></i>
           </button>
-          <button className='btn btn-toggle-play' ref={btnPlayRef} onClick={() => setIsPlaying(!isPlaying)}>
-            <i className='fas fa-pause icon-pause'></i>
-            <i className='fas fa-play icon-play'></i>
+          <button
+            className="btn btn-toggle-play"
+            ref={btnPlayRef}
+            onClick={() => setIsPlaying(!isPlaying)}
+          >
+            <i className="fas fa-pause icon-pause"></i>
+            <i className="fas fa-play icon-play"></i>
           </button>
-          <button className='btn btn-next' onClick={nextSong}>
-            <i className='fas fa-step-forward'></i>
+          <button className="btn btn-next" onClick={nextSong}>
+            <i className="fas fa-step-forward"></i>
           </button>
-          <div className='btn'>
-            <i className={value > 0 ? "fas fa-volume-up" : "fas fa-volume-mute"}>
+          <div className="btn">
+            <i
+              className={value > 0 ? "fas fa-volume-up" : "fas fa-volume-mute"}
+            >
               <input
                 onChange={handleChangeVolume}
                 ref={volumeRef}
-                type='range'
+                type="range"
                 min={0}
                 max={100}
                 value={value}
@@ -235,27 +249,35 @@ function App() {
               />
             </i>
           </div>
-          <button className={`btn btn-random ${isRandom ? "active" : ""}`} onClick={() => setIsRandom(!isRandom)}>
-            <i className='fas fa-random'></i>
+          <button
+            className={`btn btn-random ${isRandom ? "active" : ""}`}
+            onClick={() => setIsRandom(!isRandom)}
+          >
+            <i className="fas fa-random"></i>
           </button>
         </div>
 
         <input
           ref={inputRef}
           onChange={handleChangeSeek}
-          className='progress'
-          type='range'
-          value='0'
-          step='1'
-          min='0'
-          max='100'
+          className="progress"
+          type="range"
+          value="0"
+          step="1"
+          min="0"
+          max="100"
         />
 
-        <audio ref={audioRef} src=''></audio>
+        <audio ref={audioRef} src=""></audio>
       </div>
 
       {/* Playlist */}
-      <Playlist activeSong={activeSong} songs={songs} chooseSong={chooseSong} currentIndex={currentIndex} />
+      <Playlist
+        activeSong={activeSong}
+        songs={songs}
+        chooseSong={chooseSong}
+        currentIndex={currentIndex}
+      />
     </div>
   );
 }
